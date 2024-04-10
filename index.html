@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Tracking App</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/5ef32f9290.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="#" class="logo">Food Tracker</a>
+        <ul class="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Calculate my Calories</a></li>
+        </ul>
+      </div>
+    </nav>
+    <section class="main-container">
+      <div class="food-container">
+        <div class="add-container">
+          <div class="food-card-title">
+            <h3>Breakfast</h3>
+            <i class="fa-solid fa-mug-saucer"></i>
+          </div>
+          <div class="food-card-subtitle">
+            <input type="text" id="breakfastSearch" />
+            <button class="searchButton" id="breakfastSearchButton">Add</button>
+            <div id="autocompleteResults" class="autocompleteResults"></div>
+          </div>
+        </div>
+        <div class="add-container">
+          <div class="food-card-title">
+            <h3>Lunch</h3>
+            <i class="fa-solid fa-bowl-food"></i>
+          </div>
+          <div class="food-card-subtitle">
+            <input type="text" />
+            <button class="searchButton">Add</button>
+            <div id="autocompleteResults" class="autocompleteResults"></div>
+          </div>
+        </div>
+        <div class="add-container">
+          <div class="food-card-title">
+            <h3>Dinner</h3>
+            <i class="fa-solid fa-pizza-slice"></i>
+          </div>
+          <div class="food-card-subtitle">
+            <input type="text" />
+            <button class="searchButton">Add</button>
+            <div id="autocompleteResults" class="autocompleteResults"></div>
+          </div>
+        </div>
+      </div>
+      <div class="results-container">
+        <div>Results</div>
+        <div class="container" id="foodTracker"></div>
+        <ul id="searchResults"></ul>
+        <div id="foodTracker"></div>
+      </div>
+    </section>
+    <script src="app.js"></script>
+  </body>
+</html>
