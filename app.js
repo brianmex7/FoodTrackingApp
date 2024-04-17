@@ -3,30 +3,15 @@ const autocompleteResults = document.getElementById("autocompleteResults");
 let fdcId;
 const urlKey = "g25JFIap5n0u6RJxnvp5QEDbh7p9RRPvMPhSeGyl";
 
-//Retrieve Food ID from search
-const fetchFoodId = (foodName) => {
-  const url = `https://api.nal.usda.gov/fdc/v1/foods/search?query=${foodName}&api_key=${urlKey}`;
-
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      // Assuming the first item in the search result matches the food you're looking for
-      const fdcId = data.foods[0].fdcId;
-      console.log("FDC ID:", fdcId);
-      fetchFood(fdcId);
-    })
-    .catch((error) => {
-      console.error("Error fetching food data:", error);
-    });
-};
-
 // //Retrieve the data based on Id
 const fetchFood = (fdcId) => {
   const url = `https://api.nal.usda.gov/fdc/v1/food/${fdcId}?api_key=${urlKey}`;
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
+      console.log(data);
       return {
+        name: data.description,
         carbs: findNutrientValue(data, "Carbohydrate, by difference"),
         protein: findNutrientValue(data, "Protein"),
         fats: findNutrientValue(data, "Total lipid (fat)"),
@@ -34,22 +19,55 @@ const fetchFood = (fdcId) => {
     });
 };
 
-const displayNutrition = (nutrition) => {
-  const nutriHTMLString = nutrition
-    .map(
-      (nutri) =>
-        `
-  <li class="card">
-  <h3>${nutri.name}</h3>
-    <p class="card-title">Carbs: <span class="card-subtitle">${nutri.carbs}</span>g</p>
-    <p class="card-title">Protein: <span class="card-subtitle">${nutri.protein}</span>g</p>
-    <p class="card-title">Fats: <span class="card-subtitle">${nutri.fats}</span>g</p>
-    <button class="add-button">Add</button>
-  </li>
-  `
-    )
-    .join("");
-  foodTracker.innerHTML = nutriHTMLString;
+const displayNutrition = async (fdcId) => {
+  try {
+    const nutrition = await fetchFood(fdcId);
+    let selectedAmount = 100; // Default selected amount
+
+    const updateNutrition = () => {
+      const carbsElement = document.querySelector(".card-subtitle.carbs");
+      const proteinElement = document.querySelector(".card-subtitle.protein");
+      const fatsElement = document.querySelector(".card-subtitle.fats");
+
+      const carbsValue = nutrition.carbs * (selectedAmount / 100);
+      const proteinValue = nutrition.protein * (selectedAmount / 100);
+      const fatsValue = nutrition.fats * (selectedAmount / 100);
+
+      carbsElement.textContent = carbsValue.toFixed(2);
+      proteinElement.textContent = proteinValue.toFixed(2);
+      fatsElement.textContent = fatsValue.toFixed(2);
+    };
+
+    const nutriHTMLString = `
+      <li class="result-card">
+        <h3>${nutrition.name}</h3>
+        <p class="card-title">Carbs: <span class="card-subtitle carbs">${nutrition.carbs}</span>g</p>
+        <p class="card-title">Protein: <span class="card-subtitle protein">${nutrition.protein}</span>g</p>
+        <p class="card-title">Fats: <span class="card-subtitle fats">${nutrition.fats}</span>g</p>
+        <select class="nutrient-select" id="intake-select">
+          <option value="100">100g</option>
+          <option value="120">1 cup (120 g)</option>
+          <option value="10">10g</option>
+          <!-- Add more options as needed -->
+        </select>
+        <button id="add-nutrition">Add</button>
+      </li>
+    `;
+
+    const foodTracker = document.getElementById("foodTracker");
+    foodTracker.innerHTML = nutriHTMLString;
+
+    const intakeSelect = document.getElementById("intake-select");
+    intakeSelect.addEventListener("change", (event) => {
+      selectedAmount = parseFloat(event.target.value);
+      updateNutrition();
+    });
+
+    updateNutrition();
+  } catch (error) {
+    console.error("Error fetching food data:", error);
+    foodTracker.innerHTML = "Error fetching food data. Please try again.";
+  }
 };
 
 //FIND THE NAME INSIDE THE API OBJECT
@@ -67,16 +85,31 @@ const findNutrientValue = (data, nutrientName) => {
 //Based on 100g
 
 //SEARCH FOR FOOD ITEM
+const handleSearchButtonClick = (inputId) => {
+  const inputField = document.getElementById(inputId);
+  const searchTerm = document.getElementById(inputId).value.trim();
+  if (searchTerm) {
+    searchFood(searchTerm);
+    inputField.value = "";
+  } else {
+    alert("Please enter a search term.");
+  }
+};
+//Adding all 3 buttons of search
 document
   .getElementById("breakfastSearchButton")
   .addEventListener("click", function () {
-    const searchTerm = document.getElementById("breakfastSearch").value.trim();
-    if (searchTerm) {
-      searchFood(searchTerm);
-      console.log("button works");
-    } else {
-      alert("Please enter a search term.");
-    }
+    handleSearchButtonClick("breakfastSearch");
+  });
+document
+  .getElementById("lunchSearchButton")
+  .addEventListener("click", function () {
+    handleSearchButtonClick("lunchSearch");
+  });
+document
+  .getElementById("dinnerSearchButton")
+  .addEventListener("click", function () {
+    handleSearchButtonClick("dinnerSearch");
   });
 
 const searchFood = (searchTerm) => {
@@ -112,7 +145,7 @@ const displayNutritionTable = (searchResults, nutritionFacts) => {
 
   searchResults.forEach((result, index) => {
     const row = table.insertRow();
-    row.insertCell().textContent = result.description;
+    row.insertCell().textContent = result.description.toUpperCase();
     row.insertCell().textContent = nutritionFacts[index].carbs;
     row.insertCell().textContent = nutritionFacts[index].protein;
     row.insertCell().textContent = nutritionFacts[index].fats;
@@ -121,9 +154,10 @@ const displayNutritionTable = (searchResults, nutritionFacts) => {
     addButton.textContent = "Add";
     addButton.classList.add("add-button");
     addButton.addEventListener("click", function () {
-      // Add functionality when the "Add" button is clicked
-      // For example, you can add the item to a list, etc.
-      alert("Added: " + result.description);
+      const foodItemId = result.fdcId;
+      displayNutrition(foodItemId);
+      console.log(foodItemId);
+      table.remove();
     });
     addButtonCell.appendChild(addButton);
   });
@@ -142,18 +176,33 @@ const displaySearchResults = (results) => {
     listItem.textContent = result.description;
     listItem.classList.add("search-list-item");
     listItem.addEventListener("click", function () {
-      fetchFood(result.fdcId);
+      displayNutrition(result.fdcId);
       clearSearchResults();
     });
     searchResultsList.appendChild(listItem);
   });
 };
 
-document
-  .getElementsByClassName("add-button")
-  .addEventListener("click", function () {});
-
 const clearSearchResults = () => {
   const searchResultsList = document.getElementById("searchResults");
   searchResultsList.innerHTML = "";
+};
+
+//////MODAL////
+const modal = document.getElementById("myModal");
+const btn = document.getElementById("caloriesModal");
+const span = document.getElementsByClassName("close")[0];
+
+btn.onclick = () => {
+  modal.style.display = "block";
+};
+
+span.onclick = () => {
+  modal.style.display = "none";
+};
+
+window.onclick = (event) => {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
 };

@@ -24,10 +24,23 @@
           <li><a href="#">Home</a></li>
           <li><a href="#">About</a></li>
           <li><a href="#">Services</a></li>
-          <li><a href="#">Calculate my Calories</a></li>
+          <li><a href="#" id="caloriesModal">Calculate my Calories</a></li>
         </ul>
       </div>
     </nav>
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times</span>
+        <form action="" class="calculator-container">
+          <h2>Calculate My Calories</h2>
+          <label for="age">Age</label> <input type="text" placeholder="25" />
+          <label for="height">Height</label>
+          <input type="text" placeholder="180 cm" />
+          <label for="weight">Weight</label>
+          <input type="text" placeholder="65 kg" /><button>Submit</button>
+        </form>
+      </div>
+    </div>
     <section class="main-container">
       <div class="food-container">
         <div class="add-container">
@@ -47,8 +60,8 @@
             <i class="fa-solid fa-bowl-food"></i>
           </div>
           <div class="food-card-subtitle">
-            <input type="text" />
-            <button class="searchButton">Add</button>
+            <input type="text" id="lunchSearch" />
+            <button class="searchButton" id="lunchSearchButton">Add</button>
             <div id="autocompleteResults" class="autocompleteResults"></div>
           </div>
         </div>
@@ -58,14 +71,13 @@
             <i class="fa-solid fa-pizza-slice"></i>
           </div>
           <div class="food-card-subtitle">
-            <input type="text" />
-            <button class="searchButton">Add</button>
+            <input type="text" id="dinnerSearch" />
+            <button class="searchButton" id="dinnerSearchButton">Add</button>
             <div id="autocompleteResults" class="autocompleteResults"></div>
           </div>
         </div>
       </div>
       <div class="results-container">
-        <div>Results</div>
         <div class="container" id="foodTracker"></div>
         <ul id="searchResults"></ul>
         <div id="foodTracker"></div>
