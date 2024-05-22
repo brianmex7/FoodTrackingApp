@@ -217,6 +217,7 @@ const displayNutritionTable = (searchResults, nutritionFacts) => {
         console.log(foodItemId);
         table.remove();
       });
+
       const addHeart = document.createElement("button");
       addHeart.innerHTML = "&#9829";
       addHeart.classList.add("heart-button");
