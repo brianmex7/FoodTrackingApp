@@ -292,6 +292,8 @@ function updateActivityRing() {
 
   totalCaloriesRequired -= consumedCalories;
 
+  consumedCalories = 0;
+
   if (totalCaloriesRequired <= 0) {
     totalCaloriesRequired = 0;
     updateCaloriesDisplay(totalCaloriesRequired);
@@ -361,8 +363,8 @@ function calculateCalories() {
       447.593 + 9.247 * weight + 3.098 * height - 4.33 * age;
   }
 
-  consumedCalories = 0; // Reset on new calculation
-  updateActivityRing(); // Reset the ring visualization
+  consumedCalories = 0;
+  updateActivityRing();
   return totalCaloriesRequired;
 }
 
