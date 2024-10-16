@@ -1,28 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\Backend.csproj": {}
+    "C:\\Users\\Brian\\Desktop\\FoodTrackingApp\\BackEnd\\Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\Backend.csproj": {
+    "C:\\Users\\Brian\\Desktop\\FoodTrackingApp\\BackEnd\\Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\Backend.csproj",
+        "projectUniqueName": "C:\\Users\\Brian\\Desktop\\FoodTrackingApp\\BackEnd\\Backend.csproj",
         "projectName": "Backend",
-        "projectPath": "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\Backend.csproj",
-        "packagesPath": "C:\\Users\\14352\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\obj\\",
+        "projectPath": "C:\\Users\\Brian\\Desktop\\FoodTrackingApp\\BackEnd\\Backend.csproj",
+        "packagesPath": "C:\\Users\\Brian\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Brian\\Desktop\\FoodTrackingApp\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\14352\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Brian\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -50,9 +47,25 @@
               "target": "Package",
               "version": "[8.0.8, )"
             },
-            "MySql.Data": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[9.1.0, )"
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "MySql.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.5, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.2, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
