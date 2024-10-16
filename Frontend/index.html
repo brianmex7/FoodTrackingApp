@@ -18,16 +18,16 @@
       <a href="#" class="logo">Food Tracker</a>
       <ul class="nav-links">
         <li><a href="#">Home</a></li>
-        <li><a href="#" id="signUp">Sign Up</a></li>
-        <li><a href="#" id="signIn">Sign In</a></li>
-        <li><a href="#" id="caloriesModal">Calculate my Calories</a></li>
+        <li><a href="#" id="signUpBtn">Sign Up</a></li>
+        <li><a href="#" id="signInBtn">Sign In</a></li>
+        <li><a href="#" id="caloriesBtn">Calculate my Calories</a></li>
       </ul>
     </div>
   </nav>
-  <div id="myModal" class="modal">
+  <div id="caloriesModal" class="modal">
     <div class="modal-content">
-      <span class="close">&times</span>
-      <form action="" class="calculator-container" id="bmrCalc">
+      <span class="close" id="caloriesClose">&times</span>
+      <form action="" class="modalInputContainer" id="bmrCalc">
         <h2>Calculate My Calories</h2>
         <label for="age">Age</label>
         <input type="number" placeholder="25" id="age" />
@@ -43,44 +43,40 @@
         <button type="submit">Submit</button>
       </form>
     </div>
-    <!-- Sign Up Modal -->
-    <div id="signUpModal" class="modal">
-      <div class="modal-content">
-        <span class="close" id="closeSignUp">&times;</span>
-        <h2>Sign Up</h2>
-        <form id="signUpForm">
-          <label for="signUpUsername">Username:</label>
-          <input type="text" id="signUpUsername" name="username" required><br><br>
-
-          <label for="signUpEmail">Email:</label>
-          <input type="email" id="signUpEmail" name="email" required><br><br>
-
-          <label for="signUpPassword">Password:</label>
-          <input type="password" id="signUpPassword" name="password" required><br><br>
-
-          <button type="submit">Sign Up</button>
-        </form>
-      </div>
-    </div>
-    <!-- Sign In Modal -->
-    <div id="signInModal" class="modal">
-      <div class="modal-content">
-        <span class="close" id="closeSignIn">&times;</span>
-        <h2>Sign In</h2>
-        <form id="signInForm">
-          <label for="signInUsername">Username:</label>
-          <input type="text" id="signInUsername" name="username" required><br><br>
-
-          <label for="signInPassword">Password:</label>
-          <input type="password" id="signInPassword" name="password" required><br><br>
-
-          <button type="submit">Sign In</button>
-        </form>
-      </div>
-    </div>
-
-
   </div>
+  <!-- Sign Up Modal -->
+  <div id="signUpModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="signUpClose">&times;</span>
+      <form id="signUpForm" class="modalInputContainer">
+        <h2>Sign Up</h2>
+        <label for="signUpUsername">Username:</label>
+        <input type="text" id="signUpUsername" name="username" required><br><br>
+        <label for="signUpEmail">Email:</label>
+        <input type="email" id="signUpEmail" name="email" required><br><br>
+        <label for="signUpPassword">Password:</label>
+        <input type="password" id="signUpPassword" name="password" required><br><br>
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  </div>
+  <!-- Sign In Modal -->
+  <div id="signInModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="signInClose">&times;</span>
+
+      <form id="signInForm" class="modalInputContainer">
+        <h2>Sign In</h2>
+        <label for="signInUsername">Username:</label>
+        <input type="text" id="signInUsername" name="username" required><br><br>
+        <label for="signInPassword">Password:</label>
+        <input type="password" id="signInPassword" name="password" required><br><br>
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Congrats Modal -->
   <div id="congratsModal" class="modal">
     <div class="modal-content">
       <span class="close congratsClose">&times;</span>

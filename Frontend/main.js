@@ -326,21 +326,57 @@ const clearSearchResults = () => {
 };
 
 //////MODAL////
-const modal = document.getElementById("myModal");
-const btn = document.getElementById("caloriesModal");
-const span = document.getElementsByClassName("close")[0];
+const caloriesModal = document.getElementById("caloriesModal");
+const signUpModal = document.getElementById("signUpModal");
+const signInModal = document.getElementById("signInModal");
 
-btn.onclick = () => {
+const caloriesBtn = document.getElementById("caloriesBtn");
+const signUpBtn = document.getElementById("signUpBtn");
+const signInBtn = document.getElementById("signInBtn");
+
+const signUpClose = document.getElementById("signUpClose");
+const caloriesClose = document.getElementById("caloriesClose");
+const signInClose = document.getElementById("signInClose");
+
+const openModal = (modal) => {
   modal.style.display = "block";
 };
 
-span.onclick = () => {
+const closeModal = (modal) => {
   modal.style.display = "none";
 };
 
+caloriesBtn.onclick = () => {
+  openModal(caloriesModal);
+};
+
+caloriesClose.onclick = () => {
+  closeModal(caloriesModal);
+};
+
+signUpClose.onclick = () => {
+  closeModal(signUpModal);
+};
+
+signUpBtn.onclick = () => {
+  openModal(signUpModal);
+};
+
+signInBtn.onclick = () => {
+  openModal(signInModal);
+};
+
+signInClose.onclick = () => {
+  closeModal(signInModal);
+};
+
 window.onclick = (event) => {
-  if (event.target == modal) {
-    modal.style.display = "none";
+  if (event.target == signInModal) {
+    closeModal(signInModal);
+  } else if (event.target == signUpModal) {
+    closeModal(signUpModal);
+  } else if (event.target == caloriesModal) {
+    closeModal(caloriesModal);
   }
 };
 
@@ -375,7 +411,7 @@ form.addEventListener("submit", (e) => {
   currentCalories = result;
   displayResult(result);
   localStorage.setItem("caloriesResult", JSON.stringify(result));
-  modal.style.display = "none";
+  closeModal(caloriesModal);
 });
 
 function displayResult(calories) {
@@ -439,3 +475,62 @@ function checkResetTime() {
 window.onload = function () {
   checkResetTime();
 };
+
+//SIGNUP OBJECT
+const signUpForm = document.getElementById("signUpForm");
+
+signUpForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const username = document.getElementById("signUpUsername").value;
+  const email = document.getElementById("signUpEmail").value;
+  const password = document.getElementById("signUpPassword").value;
+
+  const userData = {
+    username: username,
+    email: email,
+    password: password,
+  };
+
+  try {
+    const response = await fetch("http://localhost:5038/api/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      console.log("failed to create user");
+    }
+
+    const result = await response.json();
+    console.log("user created successfully", result);
+    alert("sign up successful");
+  } catch (error) {
+    console.log("error sign up: ", error);
+  }
+  signUpForm.reset();
+  closeModal(signUpModal);
+});
+
+//SIGNIN OBJECT
+// const signInForm = document.getElementById("signUpForm");
+
+// signUpForm.addEventListener("submit", (e) => {
+//   e.preventDefault();
+
+//   const formData = {
+//     username: document.getElementById("signInUsername").value,
+//     password: document.getElementById("signInPassword").value,
+//   };
+
+//   console.log(formData);
+
+//   localStorage.setItem("signInData", JSON.stringify(formData));
+
+//   signInForm.reset();
+
+//   closeModal(signInModal);
+// });
