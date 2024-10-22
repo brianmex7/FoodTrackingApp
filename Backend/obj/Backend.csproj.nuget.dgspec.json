@@ -1,25 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Brian\\Desktop\\FoodTrackingApp\\BackEnd\\Backend.csproj": {}
+    "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Brian\\Desktop\\FoodTrackingApp\\BackEnd\\Backend.csproj": {
+    "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Brian\\Desktop\\FoodTrackingApp\\BackEnd\\Backend.csproj",
+        "projectUniqueName": "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\Backend.csproj",
         "projectName": "Backend",
-        "projectPath": "C:\\Users\\Brian\\Desktop\\FoodTrackingApp\\BackEnd\\Backend.csproj",
-        "packagesPath": "C:\\Users\\Brian\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Brian\\Desktop\\FoodTrackingApp\\BackEnd\\obj\\",
+        "projectPath": "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\Backend.csproj",
+        "packagesPath": "C:\\Users\\14352\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Brian\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\14352\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
