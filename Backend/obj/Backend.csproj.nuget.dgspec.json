@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\Backend.csproj": {}
+    "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\backend\\Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\Backend.csproj": {
+    "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\backend\\Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\Backend.csproj",
+        "projectUniqueName": "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\backend\\Backend.csproj",
         "projectName": "Backend",
-        "projectPath": "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\Backend.csproj",
+        "projectPath": "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\backend\\Backend.csproj",
         "packagesPath": "C:\\Users\\14352\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\Backend\\obj\\",
+        "outputPath": "C:\\Users\\14352\\OneDrive\\Desktop\\FoodTrackingApp\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\14352\\AppData\\Roaming\\NuGet\\NuGet.Config",

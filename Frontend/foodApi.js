@@ -17,24 +17,12 @@ const fetchFood = (fdcId) => {
 
 const searchFood = (searchTerm) => {
   const url = `https://api.nal.usda.gov/fdc/v1/foods/search?query=${searchTerm}&api_key=${urlKey}`;
-
-  fetch(url)
+  return fetch(url)
     .then((response) => response.json())
-    .then((data) => {
-      const searchResults = data.foods;
-      const nutritionPromises = searchResults.map((result) => {
-        return fetchFood(result.fdcId);
-      });
-      Promise.all(nutritionPromises).then((nutritionFacts) => {
-        displayNutritionTable(searchResults, nutritionFacts);
-      });
-    })
-    .catch((error) => {
-      console.error("Error searching for food:", error);
-      alert("Error with database");
-    });
+    .then((data) => data.foods);
 };
 
+// Helper function to find nutrient value
 const findNutrientValue = (data, nutrientName) => {
   const nutrient = data.foodNutrients.find(
     (nutrient) => nutrient.nutrient.name === nutrientName

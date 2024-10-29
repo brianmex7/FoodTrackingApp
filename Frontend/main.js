@@ -2,8 +2,6 @@ const foodTracker = document.getElementById("foodTracker");
 const autocompleteResults = document.getElementById("autocompleteResults");
 let fdcId;
 const urlKey = "g25JFIap5n0u6RJxnvp5QEDbh7p9RRPvMPhSeGyl";
-let consumedCalories = 0;
-let totalCaloriesRequired = null;
 
 // //Retrieve the data based on Id
 const fetchFood = (fdcId) => {
@@ -41,6 +39,33 @@ const displayNutrition = async (fdcId) => {
       proteinElement.textContent = proteinValue.toFixed(1) + "g";
       fatsElement.textContent = fatsValue.toFixed(1) + "g";
       caloriesElement.textContent = caloriesValue.toFixed(1) + "g";
+    };
+
+    const foodObject = {
+      name: nutrition.name,
+      calories: nutrition.calories,
+      carbs: nutrition.carbs,
+      protein: nutrition.protein,
+      fats: nutrition.fats,
+      amount: selectedAmount,
+    };
+
+    //send foodobject to table
+    const sendToBackend = async (data) => {
+      try {
+        const response = await fetch("http://localhost:5038/api/food/add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        if (response.ok) {
+          console.log("Data successfully sent to backend:", data);
+        } else {
+          console.error("Failed to send data to backend:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error sending data to backend:", error);
+      }
     };
 
     const nutriHTMLString = `
@@ -89,7 +114,7 @@ const displayNutrition = async (fdcId) => {
         };
         const foodCalories = nutrition.calories * (selectedAmount / 100);
         consumedCalories += foodCalories;
-
+        sendToBackend(nutritionData);
         updateActivityRing();
 
         updateNutrientRing("protein", nutrition.protein);
@@ -208,16 +233,16 @@ const displayNutritionTable = (searchResults, nutritionFacts) => {
       row.insertCell().textContent = pageNutritionFacts[index].fats;
       const addButtonCell = row.insertCell();
       const addHeartCell = row.insertCell();
+
       const addButton = document.createElement("button");
       addButton.textContent = "Add";
       addButton.classList.add("add-button");
       addButton.addEventListener("click", () => {
-        const foodItemId = result.fdcId;
-        displayNutrition(foodItemId);
-        console.log(foodItemId);
+        displayNutrition(result.fdcId);
         table.remove();
       });
 
+      //Favorite food
       const addHeart = document.createElement("button");
       addHeart.innerHTML = "&#9829";
       addHeart.classList.add("heart-button");
@@ -411,7 +436,7 @@ form.addEventListener("submit", (e) => {
   currentCalories = result;
   displayResult(result);
   localStorage.setItem("caloriesResult", JSON.stringify(result));
-  modal.style.display = "none";
+  closeModal(caloriesModal);
 });
 
 function displayResult(calories) {

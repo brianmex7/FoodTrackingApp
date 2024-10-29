@@ -2,6 +2,8 @@ using Backend.Data;
 using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration; // Add this
+using MySql.Data.MySqlClient;
 
 namespace backend.Controllers
 {
@@ -10,10 +12,12 @@ namespace backend.Controllers
     public class UsersController : ControllerBase
     {
         private readonly FoodTrackingContext _context;
+        private readonly IConfiguration _configuration; // Keep this as required
 
-        public UsersController(FoodTrackingContext context)
+        public UsersController(FoodTrackingContext context, IConfiguration configuration) // Inject IConfiguration
         {
             _context = context;
+            _configuration = configuration; // Assign to field
         }
 
         // GET: api/users
@@ -38,6 +42,5 @@ namespace backend.Controllers
 
             return CreatedAtAction(nameof(GetUsers), new { id = user.UserId }, user);
         }
-
     }
 }
