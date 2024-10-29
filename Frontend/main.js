@@ -10,6 +10,7 @@ const fetchFood = (fdcId) => {
     .then((response) => response.json())
     .then((data) => {
       return {
+        fdcId: data.fdcId,
         name: data.description,
         calories: findNutrientValue(data, "Energy"),
         carbs: findNutrientValue(data, "Carbohydrate, by difference"),
@@ -41,16 +42,7 @@ const displayNutrition = async (fdcId) => {
       caloriesElement.textContent = caloriesValue.toFixed(1) + "g";
     };
 
-    const foodObject = {
-      name: nutrition.name,
-      calories: nutrition.calories,
-      carbs: nutrition.carbs,
-      protein: nutrition.protein,
-      fats: nutrition.fats,
-      amount: selectedAmount,
-    };
-
-    //send foodobject to table
+    //send food object to table
     const sendToBackend = async (data) => {
       try {
         const response = await fetch("http://localhost:5038/api/food/add", {
@@ -61,7 +53,7 @@ const displayNutrition = async (fdcId) => {
         if (response.ok) {
           console.log("Data successfully sent to backend:", data);
         } else {
-          console.error("Failed to send data to backend:", response.statusText);
+          console.error("Failed to send data to backend:", response, data);
         }
       } catch (error) {
         console.error("Error sending data to backend:", error);
@@ -105,30 +97,20 @@ const displayNutrition = async (fdcId) => {
         resultCard.remove();
         showRing();
         const nutritionData = {
-          name: nutrition.name,
-          calories: nutrition.calories * (selectedAmount / 100),
-          carbs: nutrition.carbs * (selectedAmount / 100),
-          protein: nutrition.protein * (selectedAmount / 100),
-          fats: nutrition.fats * (selectedAmount / 100),
-          amount: selectedAmount,
+          FdcId: nutrition.fdcId,
+          FoodName: nutrition.name,
+          Calories: nutrition.calories,
+          Protein: nutrition.protein,
+          Carbs: nutrition.carbs,
+          Fats: nutrition.fats,
         };
         const foodCalories = nutrition.calories * (selectedAmount / 100);
         consumedCalories += foodCalories;
-        sendToBackend(nutritionData);
         updateActivityRing();
-
         updateNutrientRing("protein", nutrition.protein);
         updateNutrientRing("fats", nutrition.fats);
         updateNutrientRing("carbs", nutrition.carbs);
-
-        let entries = localStorage.getItem("nutritionEntries");
-        if (entries) {
-          entries = JSON.parse(entries);
-        } else {
-          entries = [];
-        }
-        entries.push(nutritionData);
-        localStorage.setItem("nutritionEntries", JSON.stringify(entries));
+        sendToBackend(nutritionData);
       }
     });
     updateNutrition();
