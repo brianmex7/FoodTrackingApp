@@ -42,5 +42,24 @@ namespace backend.Controllers
 
             return CreatedAtAction(nameof(GetUsers), new { id = user.UserId }, user);
         }
+
+        // POST: api/users/login
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UserLoginRequest loginRequest)
+        {
+            if (string.IsNullOrEmpty(loginRequest.Email) || string.IsNullOrEmpty(loginRequest.Password))
+            {
+                return BadRequest("Email and password are required.");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginRequest.Email && u.Password == loginRequest.Password);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(new { username = user.Username });
+        }
+
     }
 }

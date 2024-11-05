@@ -3,6 +3,7 @@ using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
@@ -11,10 +12,12 @@ namespace backend.Controllers
     public class FoodController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        private readonly FoodTrackingContext _context;
 
-        public FoodController(IConfiguration configuration)
+        public FoodController(IConfiguration configuration, FoodTrackingContext context)
         {
             _configuration = configuration;
+            _context = context;
         }
 
         [HttpPost("add")]
@@ -25,7 +28,7 @@ namespace backend.Controllers
             using (MySqlConnection connection = new MySqlConnection(connectionString!))
             {
                 await connection.OpenAsync();
-                string query = "INSERT INTO foods (fdcId, food_name, calories, protein, carbs, fats) VALUES (@fdc_id, @food_name, @calories, @protein, @carbs, @fats)";
+                string query = "INSERT IGNORE INTO foods (fdcId, food_name, calories, protein, carbs, fats) VALUES (@fdc_id, @food_name, @calories, @protein, @carbs, @fats)";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@fdc_id", food.FdcId);
@@ -38,6 +41,47 @@ namespace backend.Controllers
                 }
             }
             return Ok(new { message = "Food Item Added!!" });
+        }
+        [HttpPost("AddToFavorites")]
+        public async Task<IActionResult> AddToFavorites([FromBody] Food food)
+        {
+            int userId = 1;
+            int foodId;
+
+            var existingFood = await _context.Foods.FirstOrDefaultAsync(f => f.FdcId == food.FdcId);
+
+            if (existingFood != null)
+            {
+                foodId = existingFood.FoodId;
+            }
+            else
+            {
+                var newFood = new Food
+                {
+                    FdcId = food.FdcId,
+                    FoodName = food.FoodName,
+                    Calories = food.Calories,
+                    Protein = food.Protein,
+                    Carbs = food.Carbs,
+                    Fats = food.Fats
+                }; _context.Foods.Add(newFood);
+                await _context.SaveChangesAsync();
+                foodId = newFood.FoodId;
+            }
+            var existingFavorite = await _context.Favorites.FirstOrDefaultAsync(f => f.UserId == userId && f.FoodId == foodId);
+
+            if (existingFavorite == null)
+            {
+                var favorite = new Favorites
+                {
+                    UserId = userId,
+                    FoodId = foodId
+                };
+                _context.Favorites.Add(favorite);
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Food Item To Favorite" });
+            }
+            return Ok(new { message = "Food Already Exists" });
         }
     }
 }

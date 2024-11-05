@@ -5,7 +5,7 @@ namespace Backend.Models
     public class Food
     {
         [Key]
-
+        public int FoodId { get; set; }
         public int FdcId { get; set; }
         public required string FoodName { get; set; }
         public double Calories { get; set; }

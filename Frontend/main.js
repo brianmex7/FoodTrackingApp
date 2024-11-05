@@ -60,6 +60,23 @@ const displayNutrition = async (fdcId) => {
       }
     };
 
+    const addToFavorites = async (data) => {
+      try {
+        const response = await fetch(
+          "http://localhost:5038/api/food/AddToFavorites",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          }
+        );
+        const result = await response.json();
+        console.log(result.message);
+      } catch (error) {
+        console.log("error adding to favorites", error);
+      }
+    };
+
     const nutriHTMLString = `
       <div class="result-card" id="resultCard">
         <h3>${nutrition.name}</h3>
@@ -74,6 +91,7 @@ const displayNutrition = async (fdcId) => {
           <option value="30">1oz</option>
         </select>
         <button id="add-nutrition" class="add-button">Add</button>
+        <button id="add-to-favorites" class="heart-button">&#9829;</button>
       </div>
     `;
 
@@ -112,6 +130,10 @@ const displayNutrition = async (fdcId) => {
         updateNutrientRing("carbs", nutrition.carbs);
         sendToBackend(nutritionData);
       }
+      const addHeart = document.getElementById("add-to-favorites");
+      addHeart.addEventListener("click", () => {
+        addHeart.classList.toggle("clicked");
+      });
     });
     updateNutrition();
   } catch (error) {
@@ -224,15 +246,7 @@ const displayNutritionTable = (searchResults, nutritionFacts) => {
         table.remove();
       });
 
-      //Favorite food
-      const addHeart = document.createElement("button");
-      addHeart.innerHTML = "&#9829";
-      addHeart.classList.add("heart-button");
-      addHeart.addEventListener("click", () => {
-        addHeart.classList.toggle("clicked");
-      });
       addButtonCell.appendChild(addButton);
-      addHeartCell.appendChild(addHeart);
     });
 
     foodTracker.appendChild(table);
@@ -529,3 +543,41 @@ signUpForm.addEventListener("submit", async (e) => {
   signUpForm.reset();
   closeModal(signUpModal);
 });
+
+document
+  .getElementById("signInForm")
+  .addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const email = document.getElementById("signInEmail").value;
+    const password = document.getElementById("signInPassword").value;
+
+    try {
+      const response = await fetch("http://localhost:5038/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const username = data.username;
+        console.log("Logged in as:", username);
+
+        document.getElementById("signUpBtn").style.display = "none";
+        document.getElementById("signInBtn").style.display = "none";
+        const userDisplay = document.getElementById("userDisplay");
+        userDisplay.style.display = "inline";
+        userDisplay.textContent = username;
+
+        closeModal(signInModal);
+      } else if (response.status === 400) {
+        alert("Please check your email and password.");
+      } else {
+        alert("Sign-in failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+      alert("An error occurred during sign-in.");
+    }
+  });
