@@ -10,6 +10,7 @@ namespace Backend.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Food> Foods { get; set; }
         public DbSet<Favorites> Favorites { get; set; }
+        public DbSet<DailyCalories> DailyCalories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

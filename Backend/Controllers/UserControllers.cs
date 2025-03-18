@@ -61,5 +61,36 @@ namespace backend.Controllers
             return Ok(new { username = user.Username });
         }
 
+        [HttpPost("saveDailyCalories")]
+        public async Task<IActionResult> SaveDailyCalories([FromBody] DailyCalories dailyCalories)
+        {
+            var existingRecord = await _context.DailyCalories
+                .FirstOrDefaultAsync(c => c.UserId == dailyCalories.UserId && c.Date.Date == DateTime.UtcNow.Date);
+
+            if (existingRecord == null)
+            {
+                _context.DailyCalories.Add(dailyCalories);
+            }
+            else
+            {
+                existingRecord.Calories = dailyCalories.Calories;
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "Daily calories saved." });
+        }
+
+        [HttpGet("getDailyCalories/{userId}")]
+        public async Task<ActionResult<int>> GetDailyCalories(int userId)
+        {
+            var latestCalories = await _context.DailyCalories
+                .Where(c => c.UserId == userId)
+                .OrderByDescending(c => c.Date)
+                .Select(c => c.Calories)
+                .FirstOrDefaultAsync();
+
+            return Ok(latestCalories);
+        }
+
     }
 }
